@@ -16,6 +16,8 @@ import { mdRendererFence } from './utils/md-renderer-fence';
 import {
   containerDetailsOptions,
   containerMessageOptions,
+  containerLeftOptions,
+  containerRightOptions,
 } from './utils/md-container';
 
 const mdContainer = require('markdown-it-container');
@@ -50,6 +52,8 @@ const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
     .use(mdTaskLists, { enabled: true })
     .use(mdContainer, 'details', containerDetailsOptions)
     .use(mdContainer, 'message', containerMessageOptions)
+    .use(require('markdown-it-container'), 'left', containerLeftOptions)
+    .use(require('markdown-it-container'), 'right', containerRightOptions)
     .use(markdownItAnchor, {
       level: [1, 2, 3, 4],
       permalink: markdownItAnchor.permalink.ariaHidden({

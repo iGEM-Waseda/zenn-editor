@@ -307,3 +307,16 @@ details[open] > summary {
     margin: 0.5em 0;
   }
 }
+
+// 左右に並べるコンテナ
+.container-left,
+.container-right {
+  float: left;
+  width: 50%;
+
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}

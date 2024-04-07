@@ -50,3 +50,32 @@ export const containerMessageOptions = {
     }
   },
 };
+
+
+// left コンテナの設定
+export const containerLeftOptions = {
+  validate: function (params: string) {
+    return params.trim() === 'left';
+  },
+  render: function (tokens: Token[], idx: number) {
+    if (tokens[idx].nesting === 1) {
+      return '<div class="container-left">';
+    } else {
+      return '</div>\n';
+    }
+  },
+};
+
+// right コンテナの設定
+export const containerRightOptions = {
+  validate: function (params: string) {
+    return params.trim() === 'right';
+  },
+  render: function (tokens: Token[], idx: number) {
+    if (tokens[idx].nesting === 1) {
+      return '<div class="container-right">';
+    } else {
+      return '</div>\n';
+    }
+  },
+};
