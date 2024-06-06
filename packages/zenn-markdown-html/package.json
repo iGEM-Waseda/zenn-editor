@@ -25,7 +25,7 @@
     "fix": "eslint . --ext .ts,.tsx --fix",
     "strict:lint": "eslint . --ext .ts,.tsx --max-warnings 0",
     "test": "vitest run",
-    "postinstall": "npm install && npm run build"
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@babel/cli": "^7.20.7",
