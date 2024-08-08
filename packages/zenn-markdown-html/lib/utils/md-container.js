@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.containerRightOptions = exports.containerMessageOptions = exports.containerLeftOptions = exports.containerDetailsOptions = void 0;
+exports.containerRightOptions = exports.containerMessageOptions = exports.containerLeftOptions = exports.containerParentOptions = exports.containerDetailsOptions = void 0;
 var _utils = require("markdown-it/lib/common/utils");
 // containers
 // ref: https://github.com/markdown-it/markdown-it-container
@@ -80,3 +80,17 @@ const containerRightOptions = {
   }
 };
 exports.containerRightOptions = containerRightOptions;
+
+const containerParentOptions = {
+  validate: function (params) {
+    return params.trim() === 'parent';
+  },
+  render: function (tokens, idx) {
+    if (tokens[idx].nesting === 1) {
+      return '<div class="container-parent">';
+    } else {
+      return '</div>\n';
+    }
+  }
+};
+exports.containerParentOptions = containerParentOptions;

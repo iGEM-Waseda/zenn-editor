@@ -79,3 +79,17 @@ export const containerRightOptions = {
     }
   },
 };
+
+// parent コンテナの設定
+export const containerParentOptions = {
+  validate: function (params: string) {
+    return params.trim() === 'parent';
+  },
+  render: function (tokens: Token[], idx: number) {
+    if (tokens[idx].nesting === 1) {
+      return '<div class="container-parent">';
+    } else {
+      return '</div>\n';
+    }
+  },
+};

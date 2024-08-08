@@ -18,6 +18,7 @@ import {
   containerMessageOptions,
   containerLeftOptions,
   containerRightOptions,
+  containerParentOptions,
 } from './utils/md-container';
 
 const mdContainer = require('markdown-it-container');
@@ -54,6 +55,7 @@ const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
     .use(mdContainer, 'message', containerMessageOptions)
     .use(mdContainer, 'left', containerLeftOptions)
     .use(mdContainer, 'right', containerRightOptions)
+    .use(mdContainer, 'parent', containerParentOptions)
     .use(markdownItAnchor, {
       level: [1, 2, 3, 4],
       permalink: markdownItAnchor.permalink.ariaHidden({

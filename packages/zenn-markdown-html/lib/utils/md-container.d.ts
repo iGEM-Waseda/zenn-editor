@@ -15,3 +15,7 @@ export declare const containerRightOptions: {
     validate: (params: string) => boolean;
     render: (tokens: Token[], idx: number) => "</div>\n" | "<div class=\"container-right\">";
 };
+export declare const containerParentOptions: {
+    validate: (params: string) => boolean;
+    render: (tokens: Token[], idx: number) => "</div>\n" | "<div class=\"container-parent\">";
+};
