@@ -18,13 +18,24 @@ import {
   containerMessageOptions,
   containerLeftOptions,
   containerRightOptions,
-  footNoteFooker,
 } from './utils/md-container';
 
 const mdContainer = require('markdown-it-container');
 const mdFootnote = require('markdown-it-footnote');
 const mdTaskLists = require('markdown-it-task-lists');
 const mdInlineComments = require('markdown-it-inline-comments');
+
+interface FootnoteEnv {
+  footnotes?: {
+    refs?: { [key: string]: any };
+    list?: any[];
+  };
+}
+
+function getFootnoteContent(env: FootnoteEnv, id: number): string {
+  const ref = env.footnotes?.refs?.[id];
+  return ref ? ref.content : '';
+}
 
 const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
   if (!(text && text.length)) return '';
@@ -40,11 +51,10 @@ const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
   const md = markdownIt({ breaks: true, linkify: true });
 
   md.linkify.set({ fuzzyLink: false });
-
+  
   md.use(mdBr)
     .use(mdKatex)
     .use(mdFootnote)
-    .use(footNoteFooker)
     .use(mdInlineComments)
     .use(markdownItImSize)
     .use(mdLinkAttributes)
@@ -65,12 +75,35 @@ const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
       }),
       tabIndex: false,
     });
+  
+  let footnoteIndexMap: { [content: string]: number } = {};
+  let footnoteCounter = 0;
 
   // custom footnote
   md.renderer.rules.footnote_block_open = () =>
     '<section class="footnotes">\n' +
     '<span class="footnotes-title">脚注</span>\n' +
     '<ol class="footnotes-list">\n';
+  
+  md.renderer.rules.footnote_ref = (tokens, idx, options, env: FootnoteEnv, slf) => {
+    const id = tokens[idx].meta.id;
+    const footnoteContent = getFootnoteContent(env, id);
+    if (footnoteIndexMap[footnoteContent] === undefined) {
+      footnoteCounter++;
+      footnoteIndexMap[footnoteContent] = footnoteCounter;
+    }
+  
+    const footnoteId = footnoteIndexMap[footnoteContent];
+  
+    return `<sup class="footnote-ref"><a href="#fn${footnoteId}" id="fnref${footnoteId}">${footnoteId}</a></sup>`;
+  };
+
+  md.renderer.rules.footnote_open = (tokens, idx, options, env: FootnoteEnv, slf) => {
+    const id = tokens[idx].meta.id;
+    const footnoteContent = getFootnoteContent(env, id);
+    const footnoteId = footnoteIndexMap[footnoteContent];
+    return `<li id="fn${footnoteId}" class="footnote-item">`;
+  };
 
   // docIdは複数のコメントが1ページに指定されたときに脚注のリンク先が重複しないように指定する
   // 1ページの中で重複しなければ問題ないため、ごく短いランダムな文字列とする

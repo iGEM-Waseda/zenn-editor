@@ -31,6 +31,11 @@ const mdContainer = require('markdown-it-container');
 const mdFootnote = require('markdown-it-footnote');
 const mdTaskLists = require('markdown-it-task-lists');
 const mdInlineComments = require('markdown-it-inline-comments');
+function getFootnoteContent(env, id) {
+  var _env$footnotes, _env$footnotes$refs;
+  const ref = (_env$footnotes = env.footnotes) === null || _env$footnotes === void 0 ? void 0 : (_env$footnotes$refs = _env$footnotes.refs) === null || _env$footnotes$refs === void 0 ? void 0 : _env$footnotes$refs[id];
+  return ref ? ref.content : '';
+}
 const markdownToHtml = (text, options) => {
   if (!(text && text.length)) return '';
   const markdownOptions = {
@@ -47,7 +52,7 @@ const markdownToHtml = (text, options) => {
   md.linkify.set({
     fuzzyLink: false
   });
-  md.use(_mdBr.mdBr).use(_mdKatex.mdKatex).use(mdFootnote).use(_mdContainer.footNoteFooker).use(mdInlineComments).use(_markdownItImsize.default).use(_mdLinkAttributes.mdLinkAttributes).use(_mdCustomBlock.mdCustomBlock, markdownOptions).use(_mdRendererFence.mdRendererFence, markdownOptions).use(_mdLinkifyToCard.mdLinkifyToCard, markdownOptions).use(mdTaskLists, {
+  md.use(_mdBr.mdBr).use(_mdKatex.mdKatex).use(mdFootnote).use(mdInlineComments).use(_markdownItImsize.default).use(_mdLinkAttributes.mdLinkAttributes).use(_mdCustomBlock.mdCustomBlock, markdownOptions).use(_mdRendererFence.mdRendererFence, markdownOptions).use(_mdLinkifyToCard.mdLinkifyToCard, markdownOptions).use(mdTaskLists, {
     enabled: true
   }).use(mdContainer, 'details', _mdContainer.containerDetailsOptions).use(mdContainer, 'message', _mdContainer.containerMessageOptions).use(mdContainer, 'left', _mdContainer.containerLeftOptions).use(mdContainer, 'right', _mdContainer.containerRightOptions).use(_markdownItAnchor.default, {
     level: [1, 2, 3, 4],
@@ -58,9 +63,27 @@ const markdownToHtml = (text, options) => {
     }),
     tabIndex: false
   });
+  let footnoteIndexMap = {};
+  let footnoteCounter = 0;
 
   // custom footnote
   md.renderer.rules.footnote_block_open = () => '<section class="footnotes">\n' + '<span class="footnotes-title">脚注</span>\n' + '<ol class="footnotes-list">\n';
+  md.renderer.rules.footnote_ref = (tokens, idx, options, env, slf) => {
+    const id = tokens[idx].meta.id;
+    const footnoteContent = getFootnoteContent(env, id);
+    if (footnoteIndexMap[footnoteContent] === undefined) {
+      footnoteCounter++;
+      footnoteIndexMap[footnoteContent] = footnoteCounter;
+    }
+    const footnoteId = footnoteIndexMap[footnoteContent];
+    return `<sup class="footnote-ref"><a href="#fn${footnoteId}" id="fnref${footnoteId}">${footnoteId}</a></sup>`;
+  };
+  md.renderer.rules.footnote_open = (tokens, idx, options, env, slf) => {
+    const id = tokens[idx].meta.id;
+    const footnoteContent = getFootnoteContent(env, id);
+    const footnoteId = footnoteIndexMap[footnoteContent];
+    return `<li id="fn${footnoteId}" class="footnote-item">`;
+  };
 
   // docIdは複数のコメントが1ページに指定されたときに脚注のリンク先が重複しないように指定する
   // 1ページの中で重複しなければ問題ないため、ごく短いランダムな文字列とする

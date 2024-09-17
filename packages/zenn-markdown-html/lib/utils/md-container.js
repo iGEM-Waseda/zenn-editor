@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.containerRightOptions = exports.containerMessageOptions = exports.containerLeftOptions = exports.containerDetailsOptions = void 0;
-exports.footNoteFooker = footNoteFooker;
 var _utils = require("markdown-it/lib/common/utils");
 // containers
 // ref: https://github.com/markdown-it/markdown-it-container
@@ -81,23 +80,3 @@ const containerRightOptions = {
   }
 };
 exports.containerRightOptions = containerRightOptions;
-function footNoteFooker(md) {
-  const footnoteRefsCount = {};
-  const originalFootnoteRef = md.renderer.rules.footnote_ref;
-  md.renderer.rules.footnote_ref = function (tokens, idx, options, env, self) {
-    const id = tokens[idx].meta.id;
-    footnoteRefsCount[id] = (footnoteRefsCount[id] || 0) + 1;
-    const token = tokens[idx];
-    const footnoteId = id + 1;
-    const refId = `fnref${footnoteId}:${footnoteRefsCount[id]}`;
-    const footnoteHref = `#fn${footnoteId}`;
-    token.attrs = token.attrs || [];
-    token.attrs.push(['href', footnoteHref]);
-    token.attrs.push(['id', refId]);
-    if (originalFootnoteRef) {
-      return originalFootnoteRef(tokens, idx, options, env, self);
-    } else {
-      return self.renderToken(tokens, idx, options);
-    }
-  };
-}
