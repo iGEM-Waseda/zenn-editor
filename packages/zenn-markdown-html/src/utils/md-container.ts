@@ -83,32 +83,25 @@ export const containerRightOptions = {
 
 export function footNoteFooker(md: MarkdownIt) {
   const footnoteRefsCount: { [key: number]: number } = {};
+  const originalFootnoteRef = md.renderer.rules.footnote_ref;
 
   md.renderer.rules.footnote_ref = function(tokens, idx, options, env, self) {
     const id = tokens[idx].meta.id;
-
-    if (!footnoteRefsCount[id]) {
-      footnoteRefsCount[id] = 1;
-    } else {
-      footnoteRefsCount[id]++;
-    }
+    footnoteRefsCount[id] = (footnoteRefsCount[id] || 0) + 1;
     const token = tokens[idx];
     const footnoteId = id + 1;
 
     const refId = `fnref${footnoteId}:${footnoteRefsCount[id]}`;
     const footnoteHref = `#fn${footnoteId}`;
 
-    token.attrs = [
-      ['href', footnoteHref],
-      ['id', refId],
-      ['class', 'footnote-ref'],
-    ];
+    token.attrs = token.attrs || [];
+    token.attrs.push(['href', footnoteHref]);
+    token.attrs.push(['id', refId]);
 
-    return `<sup class="footnote-ref"><a href="${footnoteHref}" id="${refId}">${footnoteId}</a></sup>`;
-  };
-
-  const originalFootnoteBlock = md.renderer.rules.footnote_block!;
-  md.renderer.rules.footnote_block = function(tokens, idx, options, env, self) {
-    return originalFootnoteBlock(tokens, idx, options, env, self);
+    if (originalFootnoteRef) {
+      return originalFootnoteRef(tokens, idx, options, env, self);
+    } else {
+      return self.renderToken(tokens, idx, options);
+    }
   };
 }
