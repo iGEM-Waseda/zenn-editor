@@ -1,3 +1,4 @@
+import MarkdownIt from 'markdown-it';
 import { escapeHtml } from 'markdown-it/lib/common/utils';
 import type Token from 'markdown-it/lib/token';
 
@@ -80,16 +81,24 @@ export const containerRightOptions = {
   },
 };
 
-// parent コンテナの設定
-export const containerParentOptions = {
-  validate: function (params: string) {
-    return params.trim() === 'parent';
-  },
-  render: function (tokens: Token[], idx: number) {
-    if (tokens[idx].nesting === 1) {
-      return '<div class="container-parent">';
+export function footNoteFooker(md: MarkdownIt) {
+  const originalFootnoteRef = md.renderer.rules.footnote_ref;
+  const footnoteRefsCount: { [key: number]: number } = {};
+
+  md.renderer.rules.footnote_ref = function(tokens, idx, options, env, self) {
+    const id = tokens[idx].meta.id;
+
+    if (!footnoteRefsCount[id]) {
+      footnoteRefsCount[id] = 1;
     } else {
-      return '</div>\n';
+      footnoteRefsCount[id]++;
     }
-  },
-};
+    const refId = `fnref${id}:${footnoteRefsCount[id]}`;
+
+    const token = tokens[idx];
+    token.attrs = token.attrs || [];
+    token.attrs.push(['id', refId]);
+
+    return originalFootnoteRef ? originalFootnoteRef(tokens, idx, options, env, self) : '';
+  };
+}

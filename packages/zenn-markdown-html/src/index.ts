@@ -18,7 +18,7 @@ import {
   containerMessageOptions,
   containerLeftOptions,
   containerRightOptions,
-  containerParentOptions,
+  footNoteFooker,
 } from './utils/md-container';
 
 const mdContainer = require('markdown-it-container');
@@ -44,6 +44,7 @@ const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
   md.use(mdBr)
     .use(mdKatex)
     .use(mdFootnote)
+    .use(footNoteFooker)
     .use(mdInlineComments)
     .use(markdownItImSize)
     .use(mdLinkAttributes)
@@ -55,7 +56,6 @@ const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
     .use(mdContainer, 'message', containerMessageOptions)
     .use(mdContainer, 'left', containerLeftOptions)
     .use(mdContainer, 'right', containerRightOptions)
-    .use(mdContainer, 'parent', containerParentOptions)
     .use(markdownItAnchor, {
       level: [1, 2, 3, 4],
       permalink: markdownItAnchor.permalink.ariaHidden({

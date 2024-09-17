@@ -3,7 +3,8 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.containerRightOptions = exports.containerMessageOptions = exports.containerLeftOptions = exports.containerParentOptions = exports.containerDetailsOptions = void 0;
+exports.containerRightOptions = exports.containerMessageOptions = exports.containerLeftOptions = exports.containerDetailsOptions = void 0;
+exports.footNoteFooker = footNoteFooker;
 var _utils = require("markdown-it/lib/common/utils");
 // containers
 // ref: https://github.com/markdown-it/markdown-it-container
@@ -80,17 +81,20 @@ const containerRightOptions = {
   }
 };
 exports.containerRightOptions = containerRightOptions;
-
-const containerParentOptions = {
-  validate: function (params) {
-    return params.trim() === 'parent';
-  },
-  render: function (tokens, idx) {
-    if (tokens[idx].nesting === 1) {
-      return '<div class="container-parent">';
+function footNoteFooker(md) {
+  const originalFootnoteRef = md.renderer.rules.footnote_ref;
+  const footnoteRefsCount = {};
+  md.renderer.rules.footnote_ref = function (tokens, idx, options, env, self) {
+    const id = tokens[idx].meta.id;
+    if (!footnoteRefsCount[id]) {
+      footnoteRefsCount[id] = 1;
     } else {
-      return '</div>\n';
+      footnoteRefsCount[id]++;
     }
-  }
-};
-exports.containerParentOptions = containerParentOptions;
+    const refId = `fnref${id}:${footnoteRefsCount[id]}`;
+    const token = tokens[idx];
+    token.attrs = token.attrs || [];
+    token.attrs.push(['id', refId]);
+    return originalFootnoteRef ? originalFootnoteRef(tokens, idx, options, env, self) : '';
+  };
+}
