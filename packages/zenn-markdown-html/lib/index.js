@@ -10,9 +10,7 @@ Object.defineProperty(exports, "markdownToSimpleHtml", {
     return _markdownToSimpleHtml.markdownToSimpleHtml;
   }
 });
-var _crypto = _interopRequireDefault(require("crypto"));
 var _markdownIt = _interopRequireDefault(require("markdown-it"));
-var _sanitizer = require("./sanitizer");
 var _embed = require("./embed");
 var _markdownItImsize = _interopRequireDefault(require("@steelydylan/markdown-it-imsize"));
 var _markdownItAnchor = _interopRequireDefault(require("markdown-it-anchor"));
@@ -89,10 +87,8 @@ const markdownToHtml = (text, options) => {
   // 1ページの中で重複しなければ問題ないため、ごく短いランダムな文字列とする
   // - https://github.com/zenn-dev/zenn-community/issues/356
   // - https://github.com/markdown-it/markdown-it-footnote/pull/8
-  const docId = _crypto.default.randomBytes(2).toString('hex');
-  return (0, _sanitizer.sanitize)(md.render(text, {
-    docId
-  }));
+  // const docId = crypto.randomBytes(2).toString('hex');
+  return md.render(text);
 };
 var _default = markdownToHtml;
 exports.default = _default;

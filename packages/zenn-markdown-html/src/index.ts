@@ -1,6 +1,4 @@
-import crypto from 'crypto';
 import markdownIt from 'markdown-it';
-import { sanitize } from './sanitizer';
 import { embedGenerators } from './embed';
 import { MarkdownOptions } from './types';
 
@@ -109,8 +107,8 @@ const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
   // 1ページの中で重複しなければ問題ないため、ごく短いランダムな文字列とする
   // - https://github.com/zenn-dev/zenn-community/issues/356
   // - https://github.com/markdown-it/markdown-it-footnote/pull/8
-  const docId = crypto.randomBytes(2).toString('hex');
-  return sanitize(md.render(text, { docId }));
+  // const docId = crypto.randomBytes(2).toString('hex');
+  return md.render(text);
 };
 
 export default markdownToHtml;
