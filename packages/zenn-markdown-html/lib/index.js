@@ -65,7 +65,7 @@ const markdownToHtml = (text, options) => {
   let footnoteCounter = 0;
 
   // custom footnote
-  md.renderer.rules.footnote_block_open = () => '<section class="footnotes">\n' + '<H1 class="footnotes-title">Reference</H1>\n' + '<ol class="footnotes-list">\n';
+  md.renderer.rules.footnote_block_open = () => '<section class="footnotes">\n' + '<h1 class="footnotes-title">Reference</h1>\n' + '<ol class="footnotes-list">\n';
   md.renderer.rules.footnote_ref = (tokens, idx, options, env, slf) => {
     const id = tokens[idx].meta.id;
     const footnoteContent = getFootnoteContent(env, id);

@@ -80,7 +80,7 @@ const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
   // custom footnote
   md.renderer.rules.footnote_block_open = () =>
     '<section class="footnotes">\n' +
-    '<H1 class="footnotes-title">Reference</H1>\n' +
+    '<h1 class="footnotes-title">Reference</h1>\n' +
     '<ol class="footnotes-list">\n';
   
   md.renderer.rules.footnote_ref = (tokens, idx, options, env: FootnoteEnv, slf) => {
