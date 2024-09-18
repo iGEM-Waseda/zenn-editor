@@ -14,6 +14,8 @@ import { mdRendererFence } from './utils/md-renderer-fence';
 import {
   containerDetailsOptions,
   containerMessageOptions,
+  containerCOptions,
+  containerColumnsOptions,
   containerLeftOptions,
   containerRightOptions,
 } from './utils/md-container';
@@ -62,6 +64,8 @@ const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
     .use(mdTaskLists, { enabled: true })
     .use(mdContainer, 'details', containerDetailsOptions)
     .use(mdContainer, 'message', containerMessageOptions)
+    .use(mdContainer, 'c', containerCOptions)
+    .use(mdContainer, 'column', containerColumnsOptions)
     .use(mdContainer, 'left', containerLeftOptions)
     .use(mdContainer, 'right', containerRightOptions)
     .use(markdownItAnchor, {

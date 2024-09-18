@@ -52,7 +52,7 @@ const markdownToHtml = (text, options) => {
   });
   md.use(_mdBr.mdBr).use(_mdKatex.mdKatex).use(mdFootnote).use(mdInlineComments).use(_markdownItImsize.default).use(_mdLinkAttributes.mdLinkAttributes).use(_mdCustomBlock.mdCustomBlock, markdownOptions).use(_mdRendererFence.mdRendererFence, markdownOptions).use(_mdLinkifyToCard.mdLinkifyToCard, markdownOptions).use(mdTaskLists, {
     enabled: true
-  }).use(mdContainer, 'details', _mdContainer.containerDetailsOptions).use(mdContainer, 'message', _mdContainer.containerMessageOptions).use(mdContainer, 'left', _mdContainer.containerLeftOptions).use(mdContainer, 'right', _mdContainer.containerRightOptions).use(_markdownItAnchor.default, {
+  }).use(mdContainer, 'details', _mdContainer.containerDetailsOptions).use(mdContainer, 'message', _mdContainer.containerMessageOptions).use(mdContainer, 'c', _mdContainer.containerCOptions).use(mdContainer, 'column', _mdContainer.containerColumnsOptions).use(mdContainer, 'left', _mdContainer.containerLeftOptions).use(mdContainer, 'right', _mdContainer.containerRightOptions).use(_markdownItAnchor.default, {
     level: [1, 2, 3, 4],
     permalink: _markdownItAnchor.default.permalink.ariaHidden({
       placement: 'before',
