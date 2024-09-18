@@ -65,7 +65,7 @@ const markdownToHtml = (text, options) => {
   let footnoteCounter = 0;
 
   // custom footnote
-  md.renderer.rules.footnote_block_open = () => '<section class="footnotes">\n' + '<H1 class="footnotes-title">Reference</span>\n' + '<ol class="footnotes-list">\n';
+  md.renderer.rules.footnote_block_open = () => '<section class="footnotes">\n' + '<H1 class="footnotes-title">Reference</H1>\n' + '<ol class="footnotes-list">\n';
   md.renderer.rules.footnote_ref = (tokens, idx, options, env, slf) => {
     const id = tokens[idx].meta.id;
     const footnoteContent = getFootnoteContent(env, id);
@@ -90,5 +90,10 @@ const markdownToHtml = (text, options) => {
   // const docId = crypto.randomBytes(2).toString('hex');
   return md.render(text);
 };
+console.log('markdownToHtml');
+let text = 
+  `This is a test for footnote[^1]. 
+  [^1]: This is a sample footnote.`;
+console.log(markdownToHtml(text))
 var _default = markdownToHtml;
 exports.default = _default;
