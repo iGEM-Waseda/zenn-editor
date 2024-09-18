@@ -61,11 +61,11 @@ const markdownToHtml = (text, options) => {
     }),
     tabIndex: false
   });
-  let footnoteIndexMap = {};
+  const footnoteIndexMap = {};
   let footnoteCounter = 0;
 
   // custom footnote
-  md.renderer.rules.footnote_block_open = () => '<section class="footnotes">\n' + '<span class="footnotes-title">脚注</span>\n' + '<ol class="footnotes-list">\n';
+  md.renderer.rules.footnote_block_open = () => '<section class="footnotes">\n' + '<H1 class="footnotes-title">Reference</span>\n' + '<ol class="footnotes-list">\n';
   md.renderer.rules.footnote_ref = (tokens, idx, options, env, slf) => {
     const id = tokens[idx].meta.id;
     const footnoteContent = getFootnoteContent(env, id);
