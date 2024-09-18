@@ -51,6 +51,48 @@ export const containerMessageOptions = {
     }
   },
 };
+// ::: c 
+//   content goes here
+// :::
+export const containerCOptions = {
+  validate: function (params: string) {
+    return /^c\s*$/.test(params.trim());
+  },
+  render: function (tokens: Token[], idx: number) {
+    if (tokens[idx].nesting === 1) {
+      // opening tag
+      return `<div class="fig-table-caption">`;
+    } else {
+      // closing tag
+      return `</div>\n`;
+    }
+  },
+};
+
+// ::: columns
+//   ::: left
+//     Content on the left side.
+//   :::
+//   ::: right
+//     Content on the right side.
+//   :::
+// :::
+
+// columns コンテナの設定
+export const containerColumnsOptions = {
+  validate: function (params: string) {
+    return params.trim() === 'columns';
+  },
+  render: function (tokens: Token[], idx: number) {
+    if (tokens[idx].nesting === 1) {
+      // opening tag
+      return '<div class="container-columns">';
+    } else {
+      // closing tag
+      return '</div>\n';
+    }
+  },
+};
 
 
 // left コンテナの設定
