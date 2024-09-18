@@ -90,10 +90,5 @@ const markdownToHtml = (text, options) => {
   // const docId = crypto.randomBytes(2).toString('hex');
   return md.render(text);
 };
-console.log('markdownToHtml');
-let text = 
-  `This is a test for footnote[^1]. 
-  [^1]: This is a sample footnote.`;
-console.log(markdownToHtml(text))
 var _default = markdownToHtml;
 exports.default = _default;

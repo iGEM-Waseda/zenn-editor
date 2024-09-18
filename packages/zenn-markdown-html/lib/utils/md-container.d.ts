@@ -9,13 +9,32 @@ export declare const containerMessageOptions: {
 };
 export declare const containerLeftOptions: {
     validate: (params: string) => boolean;
-    render: (tokens: Token[], idx: number) => "<div class=\"container-left\">" | "</div>\n";
+    render: (tokens: Token[], idx: number) => string;
 };
 export declare const containerRightOptions: {
     validate: (params: string) => boolean;
-    render: (tokens: Token[], idx: number) => "</div>\n" | "<div class=\"container-right\">";
+    render: (tokens: Token[], idx: number) => string;
 };
-export declare const containerParentOptions: {
+export declare const containerColumnsOptions: {
     validate: (params: string) => boolean;
-    render: (tokens: Token[], idx: number) => "</div>\n" | "<div class=\"container-parent\">";
+    render: (tokens: Token[], idx: number) => string;
 };
+
+export declare const containerCOptions: {
+    validate: (params: string) => boolean;
+    render: (tokens: Token[], idx: number) => string;
+};
+
+
+// export declare const containerLeftOptions: {
+//     validate: (params: string) => boolean;
+//     render: (tokens: Token[], idx: number) => "<div class=\"container-left\">" | "</div>\n";
+// };
+// export declare const containerRightOptions: {
+//     validate: (params: string) => boolean;
+//     render: (tokens: Token[], idx: number) => "</div>\n" | "<div class=\"container-right\">";
+// };
+// export declare const containerParentOptions: {
+//     validate: (params: string) => boolean;
+//     render: (tokens: Token[], idx: number) => "</div>\n" | "<div class=\"container-parent\">";
+// };
