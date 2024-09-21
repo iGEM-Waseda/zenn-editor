@@ -78,22 +78,6 @@ export const containerCOptions = {
 //   :::
 // :::
 
-// columns コンテナの設定
-export const containerColumnsOptions = {
-  validate: function (params: string) {
-    return params.trim() === 'columns';
-  },
-  render: function (tokens: Token[], idx: number) {
-    if (tokens[idx].nesting === 1) {
-      // opening tag
-      return '<div class="container-columns">';
-    } else {
-      // closing tag
-      return '</div>\n';
-    }
-  },
-};
-
 
 // left コンテナの設定
 export const containerLeftOptions = {
@@ -102,7 +86,7 @@ export const containerLeftOptions = {
   },
   render: function (tokens: Token[], idx: number) {
     if (tokens[idx].nesting === 1) {
-      return '<div class="container-left">';
+      return '<div class="container-columns"><div class="container-left">';
     } else {
       return '</div>\n';
     }
@@ -118,7 +102,7 @@ export const containerRightOptions = {
     if (tokens[idx].nesting === 1) {
       return '<div class="container-right">';
     } else {
-      return '</div>\n';
+      return '</div></div>\n';
     }
   },
 };

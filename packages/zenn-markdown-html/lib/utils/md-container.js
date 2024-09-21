@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.containerRightOptions = exports.containerMessageOptions = exports.containerLeftOptions = exports.containerDetailsOptions = exports.containerColumnsOptions = exports.containerCOptions = void 0;
+exports.containerRightOptions = exports.containerMessageOptions = exports.containerLeftOptions = exports.containerDetailsOptions = exports.containerCOptions = void 0;
 var _utils = require("markdown-it/lib/common/utils");
 // containers
 // ref: https://github.com/markdown-it/markdown-it-container
@@ -77,32 +77,15 @@ const containerCOptions = {
 //   :::
 // :::
 
-// columns コンテナの設定
-exports.containerCOptions = containerCOptions;
-const containerColumnsOptions = {
-  validate: function (params) {
-    return params.trim() === 'columns';
-  },
-  render: function (tokens, idx) {
-    if (tokens[idx].nesting === 1) {
-      // opening tag
-      return '<div class="container-columns">';
-    } else {
-      // closing tag
-      return '</div>\n';
-    }
-  }
-};
-
 // left コンテナの設定
-exports.containerColumnsOptions = containerColumnsOptions;
+exports.containerCOptions = containerCOptions;
 const containerLeftOptions = {
   validate: function (params) {
     return params.trim() === 'left';
   },
   render: function (tokens, idx) {
     if (tokens[idx].nesting === 1) {
-      return '<div class="container-left">';
+      return '<div class="container-columns"><div class="container-left">';
     } else {
       return '</div>\n';
     }
@@ -119,7 +102,7 @@ const containerRightOptions = {
     if (tokens[idx].nesting === 1) {
       return '<div class="container-right">';
     } else {
-      return '</div>\n';
+      return '</div></div>\n';
     }
   }
 };
