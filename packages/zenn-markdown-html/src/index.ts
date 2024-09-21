@@ -35,7 +35,7 @@ const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
     },
   };
 
-  const md = markdownIt({ breaks: true, linkify: true });
+  const md = markdownIt({ breaks: true, linkify: true, html: true, });
 
   md.linkify.set({ fuzzyLink: false });
   

@@ -40,7 +40,8 @@ const markdownToHtml = (text, options) => {
   };
   const md = (0, _markdownIt.default)({
     breaks: true,
-    linkify: true
+    linkify: true,
+    html: true
   });
   md.linkify.set({
     fuzzyLink: false
