@@ -60,6 +60,10 @@ const markdownToHtml = (text, options) => {
 
   // custom footnote
   md.renderer.rules.footnote_block_open = () => '<h1 id="references"><a class="header-anchor-link" href="#references" aria-hidden="true"></a> References</h1>\n' + '<section class="footnotes">\n' + '<ol class="footnotes-list">\n';
+  md.renderer.rules.footnote_caption = (tokens, idx, options, env, slf) => {
+    var n = Number(tokens[idx].meta.id + 1).toString();
+    return '[' + n + ']';
+  };
 
   // docIdは複数のコメントが1ページに指定されたときに脚注のリンク先が重複しないように指定する
   // 1ページの中で重複しなければ問題ないため、ごく短いランダムな文字列とする
